@@ -28,7 +28,7 @@ public class Coordinates {
 
 	@Override
 	public String toString() {
-		return "Your coordinates are: (" + x + ", " + y + ").";
+		return "The watch displays " + x + ", " + y + ".";
 	}
 	
 	

@@ -6,8 +6,8 @@ import java.util.List;
 public class Game {
 	
 	public GameStatus status = new GameStatus();
-	private Coordinates playerStart = new Coordinates(2,2);
-	private Coordinates mapSize = new Coordinates(5,5);
+	private Coordinates playerStart = new Coordinates(4,4);
+	private Coordinates mapSize = new Coordinates(9,9);
 	private Coordinates playerPosition = playerStart;
 
 	List<Feature> features = new ArrayList<>();
@@ -24,10 +24,12 @@ public class Game {
 	
 	public void generateFeatures() {
 		
-		Feature test = new Feature(0,1,"a really big tree",false);
+		Feature tree = new Feature(0,1,"the really big tree",false);
+		Feature wall = new Feature(8,6,"the uninteresting wall",false);
 		
 		features.add(treasure);
-		features.add(test);
+		features.add(tree);
+		features.add(wall);
 
 	}
 	
@@ -90,8 +92,8 @@ public class Game {
 	}
 	
 	public void printPosition() {
-		System.out.println("The dial reads: " + nearestFeature() +"m.\n");
-		//System.out.println(playerPosition.toString() + "\n");
+		System.out.println("The dial reads: " + nearestFeature() +"m.");
+		System.out.println(playerPosition.toString() + "\n");
 	}
 	
 	public void checkPosition() {
@@ -118,6 +120,7 @@ public class Game {
 					feature(i);
 			}
 			printPosition();
+			
 		}
 	}
 	
@@ -143,6 +146,7 @@ public class Game {
 			System.out.println("That is not a valid direction. Try \"north\", \"east\", \"west\" or \"south\".");
 			
 		return playerPosition;
+		
 	}
 	
 	public void treasure() {
@@ -157,12 +161,13 @@ public class Game {
 		randomTreasure();
 		generateFeatures();
 
-		String text = ("After what feels like countless hours of exploring, you find yourself in the midst of a murky swamp with no recollection of how you got here.\n\n" +
-				"You reach into your pocket and discover that you have with you a small pocket watch type device.\n\n" + 
-				"Displayed on the face are hands like a watch, but it doesn't seem like it is telling the time.\n\n" +
+		String text = ("After what feels like countless hours of exploring, you find yourself in the midst of a murky swamp with no recollection of how you got here.\n" +
+				"You reach into your pocket and discover that you have with you a small pocket watch type device.\n" + 
+				"Displayed on the face are hands like a watch, but it doesn't seem like it is telling the time.\n" +
+				"Also on the face of the watch are two numbers.\n\n" +
 				"Which direction will you travel?\n");
 		
 		return text;
+		
 	}
-	
 }
