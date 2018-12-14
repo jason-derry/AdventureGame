@@ -14,6 +14,7 @@ public class Runner {
 			
 			Game fun = new Game();
 			System.out.println(fun.start());
+			fun.printPosition();
 			
 			while(fun.status.isPlayerAlive() == true) {
 				String direction = sc.next();

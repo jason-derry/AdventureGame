@@ -11,11 +11,20 @@ public class Game {
 	private Coordinates playerPosition = playerStart;
 
 	List<Feature> features = new ArrayList<>();
-	Feature treasure = new Feature(3,4,"Treasure",true);
+	
+	Feature treasure = new Feature(playerStart.getX(),playerStart.getY(),"Treasure",true);
+	
+	public void randomTreasure() {
+		
+		while(treasure.getX() == playerStart.getX() && treasure.getY() == playerStart.getY()) {
+			treasure.setX((int)(Math.random()*5));
+			treasure.setY((int)(Math.random()*5));
+		}
+	}
 	
 	public void generateFeatures() {
-	
-		Feature test = new Feature(1,1,"Test",false);
+		
+		Feature test = new Feature(0,1,"a really big tree",false);
 		
 		features.add(treasure);
 		features.add(test);
@@ -39,11 +48,12 @@ public class Game {
 		status.setCurrentDir("West");
 	}
 	
-	public double nearestFeature() {
+	public double calcDistance(int i, List<Feature> list) {
 		
 		double distance;
-		int distX = playerPosition.getX() - treasure.getX();
-		int distY = playerPosition.getY() - treasure.getY();
+		int distX = playerPosition.getX() - list.get(i).getX();
+		int distY = playerPosition.getY() - list.get(i).getY();
+		
 		distance = Math.pow(distX,2) + Math.pow(distY,2);
 		distance = Math.pow(distance, 0.5);
 		if (distance % 1 != 0)
@@ -52,15 +62,36 @@ public class Game {
 		return distance;
 	}
 	
+	public double nearestFeature() {
+		
+		double distance = 0;
+		List<Feature> closest = new ArrayList<>();
+		closest.add(treasure);
+		for (int i = 0; i < features.size()-1; i++) {
+			if(calcDistance(i+1, features) < calcDistance(0, closest)) {
+				closest.clear();
+				closest.add(features.get(i+1));
+			}
+		}
+		distance = calcDistance(0,closest);
+		
+		return distance;
+	}
+	
 	public void feature(int i) {
 		
 		if(features.get(i).isVisited() == false) {
-			System.out.println("You arrive at " + features.get(i).getName() + ".");
+			System.out.println("\nYou arrive at " + features.get(i).getName() + ".\n");
 			features.get(i).setVisited(true);
 		}
 		else
-			System.out.println("You find yourself back at " + features.get(i).getName() + ".");
+			System.out.println("\nYou find yourself back at " + features.get(i).getName() + ".\n");
 
+	}
+	
+	public void printPosition() {
+		System.out.println("The dial reads: " + nearestFeature() +"m.");
+		System.out.println(playerPosition.toString() + "\n");
 	}
 	
 	public void checkPosition() {
@@ -82,12 +113,11 @@ public class Game {
 			treasure();
 		}
 		else {
-			for (int i = 0; i < features.size(); i++) {
+			for (int i = 1; i < features.size(); i++) {
 				if((playerPosition.getX() == features.get(i).getX() && playerPosition.getY() == features.get(i).getY()))
 					feature(i);
 			}
-			System.out.println("The dial reads: " + nearestFeature() +"m.");
-			System.out.println(playerPosition.toString());
+			printPosition();
 		}
 	}
 	
@@ -117,19 +147,20 @@ public class Game {
 	
 	public void treasure() {
 		
-		System.out.println("You see a box sitting on the plain.   Its filled with treasure!  You win!  The end.");
+		System.out.println("\nYou see a box sitting on the plain.   Its filled with treasure!  You win!  The end.\n");
 		status.setPlayerAlive(false);
 		
 	}
 	
 	public String start() {
 		
+		randomTreasure();
 		generateFeatures();
+		System.out.println(treasure.toString());
 		String text = ("Grey foggy clouds float oppressively close to you, reflected in the murky grey water which reaches up your shins.\n\n" +
 				"Try \"north\",\"south\",\"east\",or \"west\".\n\n" + 
 				"You notice a small watch-like device in your left hand. \n\n" + 
-				"It has hands like a watch, but the hands don't seem to tell time.\n\n" +
-				"The dial reads: " + nearestFeature() +"m.");
+				"It has hands like a watch, but the hands don't seem to tell time.\n");
 		
 		return text;
 	}
