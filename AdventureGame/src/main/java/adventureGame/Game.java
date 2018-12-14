@@ -90,8 +90,8 @@ public class Game {
 	}
 	
 	public void printPosition() {
-		System.out.println("The dial reads: " + nearestFeature() +"m.");
-		System.out.println(playerPosition.toString() + "\n");
+		System.out.println("The dial reads: " + nearestFeature() +"m.\n");
+		//System.out.println(playerPosition.toString() + "\n");
 	}
 	
 	public void checkPosition() {
@@ -140,14 +140,14 @@ public class Game {
 			System.out.println("You travel " + status.getCurrentDir() + ".");
 			checkPosition();
 		} else
-			System.out.println("That is not a valid direction.");
+			System.out.println("That is not a valid direction. Try \"north\", \"east\", \"west\" or \"south\".");
 			
 		return playerPosition;
 	}
 	
 	public void treasure() {
 		
-		System.out.println("\nYou see a box sitting on the plain.   Its filled with treasure!  You win!  The end.\n");
+		System.out.println("\nYou notice a chest in the middle of the plains. You open it and inside you find mounds of riches. Congratulations! You win!\n");
 		status.setPlayerAlive(false);
 		
 	}
@@ -156,11 +156,11 @@ public class Game {
 		
 		randomTreasure();
 		generateFeatures();
-		System.out.println(treasure.toString());
-		String text = ("Grey foggy clouds float oppressively close to you, reflected in the murky grey water which reaches up your shins.\n\n" +
-				"Try \"north\",\"south\",\"east\",or \"west\".\n\n" + 
-				"You notice a small watch-like device in your left hand. \n\n" + 
-				"It has hands like a watch, but the hands don't seem to tell time.\n");
+
+		String text = ("After what feels like countless hours of exploring, you find yourself in the midst of a murky swamp with no recollection of how you got here.\n\n" +
+				"You reach into your pocket and discover that you have with you a small pocket watch type device.\n\n" + 
+				"Displayed on the face are hands like a watch, but it doesn't seem like it is telling the time.\n\n" +
+				"Which direction will you travel?\n");
 		
 		return text;
 	}
